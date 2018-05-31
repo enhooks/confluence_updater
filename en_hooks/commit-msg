@@ -1,0 +1,51 @@
+#!/usr/bin/python
+#Commit message validation.
+
+import sys, re, subprocess
+
+MESSAGE_REGEX = '\w*-[\d]*'
+
+def current_branch_name():
+  """Gets the current GIT branch name.
+  Returns:
+    string: The current branch name.
+  """
+  return subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
+
+def usage():
+  print """
+  Only one Jira ticket id per commit
+  git commit -m <commit message with jira id>
+  eg: git commit -m ' modified logic to handle exceptions SCM-136 '
+  """
+
+def prompt_error_msg(status):
+  if status:
+    print "\n !!! ERROR: Don't mention multiple Jira ticket ids in commmit message. !!! "
+  else:
+    print "\n !!! ERROR: Missing Jira ticket id in commmit message. !!! "
+  usage()
+
+def valid_commit_message(message):
+  jira_issues = re.findall(MESSAGE_REGEX, message)
+  if len(jira_issues) == 0:
+    prompt_error_msg(False)
+  elif len(jira_issues) > 1:
+    prompt_error_msg(True)
+  else:
+    return True  
+  
+def main():
+  message_file = sys.argv[1]
+  try:
+    c_msg_file = open(message_file, 'r')
+    commit_message = c_msg_file.read()
+  finally:
+    c_msg_file.close()
+
+  if not valid_commit_message(commit_message):
+    sys.exit(1)
+  sys.exit(0)
+
+if __name__ == "__main__":
+  main()
