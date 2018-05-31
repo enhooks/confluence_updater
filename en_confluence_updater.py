@@ -1,5 +1,4 @@
 """
-
 This Script updates Confluence page with the data provided as args.
 Usage:  written in usage() below.
 
