@@ -1,6 +1,7 @@
 """
 This Script updates Confluence page with the data provided as args.
 Usage:  written in usage() below.
+
 # Author: Vamsi Krishna Lella
 # Email : vamsikrishna.naidu@gmail.com
 # Dated : 15th May 2018.  
