@@ -13,17 +13,17 @@ def current_branch_name():
   return subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
 
 def usage():
-  print """
+  print ("""
   Only one Jira ticket id per commit
   git commit -m <commit message with jira id>
   eg: git commit -m ' modified logic to handle exceptions SCM-136 '
-  """
+  """)
 
 def prompt_error_msg(status):
   if status:
-    print "\n !!! ERROR: Don't mention multiple Jira ticket ids in commmit message. !!! "
+    print ("\n !!! ERROR: Don't mention multiple Jira ticket ids in commmit message. !!! ")
   else:
-    print "\n !!! ERROR: Missing Jira ticket id in commmit message. !!! "
+    print ("\n !!! ERROR: Missing Jira ticket id in commmit message. !!! ")
   usage()
 
 def valid_commit_message(message):
